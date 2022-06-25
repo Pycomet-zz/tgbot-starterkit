@@ -1,12 +1,14 @@
+import asyncio
 import logging
 import os
 import re
 from flask import Flask, request
 from datetime import date
-import telegram
-import telebot
-from telebot import types
 import goslate
+
+from aiotdlib import Client
+from aiotdlib.api import UpdateNewMessage
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -23,13 +25,15 @@ translator = goslate.Goslate()
 # Logging Setup
 logging.basicConfig(
     format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
-    level=logging.WARNING
+    level=logging.INFO
 )
 
 TOKEN = os.getenv('TOKEN')
+API_ID = os.getnv('API_ID')
+API_HASH = os.getenv('API_HASH')
 
 DEBUG = True
 SERVER_URL = os.getenv("SERVER_URL")
 
-bot = telebot.TeleBot(TOKEN)
+bot = Client(api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 app = Flask(__name__)
